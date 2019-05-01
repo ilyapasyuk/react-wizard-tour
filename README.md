@@ -38,6 +38,7 @@ Then just renders it
 
 ### Example
 
+
 ```
 import React, { Component } from "react";
 import Wizard from "react-onboarding";
