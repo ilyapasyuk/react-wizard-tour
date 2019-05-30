@@ -51,10 +51,6 @@ const styles = {
         width: '35%',
         fontSize: 12,
     },
-    steps: {
-        display: 'flex',
-        width: 100,
-    },
     pin: {
         position: 'absolute',
         zIndex: 2,
@@ -134,10 +130,6 @@ const Wizard = ({
         setTransition('all 100ms ease')
     }
 
-    function onCloseButtonClick() {
-        setShow(false)
-    }
-
     function handleScroll() {
         setPosition(getCoords(getStep(currentStepNumber, rule).elementId))
         setTransition(null)
@@ -150,22 +142,12 @@ const Wizard = ({
     return (
         <div style={wrapperStyle}>
             <div style={styles.wizard}>
-                <button onClick={() => onCloseButtonClick()} style={styles.closeButton}>
+                <button onClick={() => setShow(false)} style={styles.closeButton}>
                     X
                 </button>
                 <div style={styles.info}>
                     <div style={styles.stepsCount}>
                         {currentStepNumber + 1} of {rule.length}
-                    </div>
-                    <div style={styles.steps}>
-                        {rule.map((step) => (
-                            <div
-                                className={`WizardInfo__step WizardInfo__step_${
-                                    currentStepNumber > rule.indexOf(step) ? 'passed' : ''
-                                }`}
-                                key={`step-${step.elementId}`}
-                            />
-                        ))}
                     </div>
                 </div>
 
