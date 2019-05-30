@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Component } from 'react'
+import ReactDOM from 'react-dom'
 
 const styles = {
     wizard: {
@@ -92,22 +93,38 @@ const styles = {
     },
 }
 
+const RenderInBody = ({ children }) => {
+    const node = document.createElement('div')
+    document.body.appendChild(node)
+
+    useEffect(() => {
+        ReactDOM.render(<div className="RenderInbody">{children}</div>, node)
+
+        return () => {
+            document.body.removeChild(node)
+        }
+    })
+
+    return null
+}
+
 const defaultPrevButtonTitle = 'Prev'
 const defaultNextButtonTitle = 'Next'
 
 const Wizard = ({
     isShow,
     rule,
+    defaultStepNumber = 0,
     prevButtonTitle = defaultPrevButtonTitle,
     nextButtonTitle = defaultNextButtonTitle,
 }) => {
     const [isShowState, setShow] = useState(isShow)
     const [transition, setTransition] = useState(null)
     const [position, setPosition] = useState(undefined)
-    const [currentStepNumber, setCurrentStepNumber] = useState(0)
+    const [currentStepNumber, setCurrentStepNumber] = useState(defaultStepNumber)
 
     const wrapperStyle = {
-        position: 'fixed',
+        position: 'absolute',
         zIndex: 99,
         transition: transition,
         ...position,
@@ -116,13 +133,8 @@ const Wizard = ({
     const currentStepContent = getStep(currentStepNumber, rule)
 
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll)
-        setPosition(getCoords(getStep(0, rule).elementId))
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll)
-        }
-    }, [])
+        setPosition(getCoords(getStep(currentStepNumber, rule).elementId))
+    })
 
     function onStepButtonClick(stepNumber) {
         setCurrentStepNumber(stepNumber)
@@ -130,60 +142,57 @@ const Wizard = ({
         setTransition('all 100ms ease')
     }
 
-    function handleScroll() {
-        setPosition(getCoords(getStep(currentStepNumber, rule).elementId))
-        setTransition(null)
-    }
-
-    if (!isShowState) {
+    if (!isShowState || !position) {
         return null
     }
 
     return (
-        <div style={wrapperStyle}>
-            <div style={styles.wizard}>
-                <button onClick={() => setShow(false)} style={styles.closeButton}>
-                    X
-                </button>
-                <div style={styles.info}>
-                    <div style={styles.stepsCount}>
-                        {currentStepNumber + 1} of {rule.length}
+        <RenderInBody>
+            <div style={wrapperStyle}>
+                <div style={styles.wizard}>
+                    <button onClick={() => setShow(false)} style={styles.closeButton}>
+                        X
+                    </button>
+                    <div style={styles.info}>
+                        <div style={styles.stepsCount}>
+                            {currentStepNumber + 1} of {rule.length}
+                        </div>
                     </div>
-                </div>
 
-                <div
-                    dangerouslySetInnerHTML={{ __html: currentStepContent.title }}
-                    style={styles.title}
-                />
-                <div
-                    dangerouslySetInnerHTML={{
-                        __html: currentStepContent.description,
-                    }}
-                    style={styles.description}
-                />
+                    <div
+                        dangerouslySetInnerHTML={{ __html: currentStepContent.title }}
+                        style={styles.title}
+                    />
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: currentStepContent.description,
+                        }}
+                        style={styles.description}
+                    />
 
-                <div style={styles.footer}>
-                    {currentStepNumber !== 0 && (
+                    <div style={styles.footer}>
+                        {currentStepNumber !== 0 && (
+                            <button
+                                onClick={() => onStepButtonClick(currentStepNumber - 1)}
+                                style={styles.button}
+                            >
+                                {prevButtonTitle}
+                            </button>
+                        )}
+
                         <button
-                            onClick={() => onStepButtonClick(currentStepNumber - 1)}
+                            onClick={() => onStepButtonClick(currentStepNumber + 1)}
+                            disabled={currentStepNumber + 1 === rule.length}
                             style={styles.button}
                         >
-                            {prevButtonTitle}
+                            {nextButtonTitle}
                         </button>
-                    )}
-
-                    <button
-                        onClick={() => onStepButtonClick(currentStepNumber + 1)}
-                        disabled={currentStepNumber + 1 === rule.length}
-                        style={styles.button}
-                    >
-                        {nextButtonTitle}
-                    </button>
+                    </div>
                 </div>
+                <div style={styles.pin} />
+                <div style={styles.pinLine} />
             </div>
-            <div style={styles.pin} />
-            <div style={styles.pinLine} />
-        </div>
+        </RenderInBody>
     )
 }
 
