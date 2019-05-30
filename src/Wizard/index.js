@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import ReactDOM from 'react-dom'
 
 const styles = {
@@ -94,16 +94,15 @@ const styles = {
 }
 
 const RenderInBody = ({ children }) => {
-    const node = document.createElement('div')
-    document.body.appendChild(node)
-
     useEffect(() => {
-        ReactDOM.render(<div className="RenderInbody">{children}</div>, node)
+        const node = document.createElement('div')
+        document.body.appendChild(node)
+        ReactDOM.render(<>{children}</>, node)
 
         return () => {
             document.body.removeChild(node)
         }
-    })
+    }, [])
 
     return null
 }
@@ -122,6 +121,7 @@ const Wizard = ({
     const [transition, setTransition] = useState(null)
     const [position, setPosition] = useState(undefined)
     const [currentStepNumber, setCurrentStepNumber] = useState(defaultStepNumber)
+    const currentStepContent = getStep(currentStepNumber, rule)
 
     const wrapperStyle = {
         position: 'absolute',
@@ -130,11 +130,9 @@ const Wizard = ({
         ...position,
     }
 
-    const currentStepContent = getStep(currentStepNumber, rule)
-
     useEffect(() => {
         setPosition(getCoords(getStep(currentStepNumber, rule).elementId))
-    })
+    }, [])
 
     function onStepButtonClick(stepNumber) {
         setCurrentStepNumber(stepNumber)
