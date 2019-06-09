@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useState, useEffect } from 'react'
 
 const styles = {
     wizard: {
@@ -93,20 +92,6 @@ const styles = {
     },
 }
 
-const RenderInBody = ({ children }) => {
-    useEffect(() => {
-        const node = document.createElement('div')
-        document.body.appendChild(node)
-        ReactDOM.render(<>{children}</>, node)
-
-        return () => {
-            document.body.removeChild(node)
-        }
-    }, [])
-
-    return null
-}
-
 const defaultPrevButtonTitle = 'Prev'
 const defaultNextButtonTitle = 'Next'
 
@@ -143,54 +128,56 @@ const Wizard = ({
     if (!isShowState || !position) {
         return null
     }
-
+    console.log(
+        '%c currentStepNumber ',
+        'color: white; background-color: #2274A5',
+        currentStepNumber,
+    )
     return (
-        <RenderInBody>
-            <div style={wrapperStyle}>
-                <div style={styles.wizard}>
-                    <button onClick={() => setShow(false)} style={styles.closeButton}>
-                        X
-                    </button>
-                    <div style={styles.info}>
-                        <div style={styles.stepsCount}>
-                            {currentStepNumber + 1} of {rule.length}
-                        </div>
-                    </div>
-
-                    <div
-                        dangerouslySetInnerHTML={{ __html: currentStepContent.title }}
-                        style={styles.title}
-                    />
-                    <div
-                        dangerouslySetInnerHTML={{
-                            __html: currentStepContent.description,
-                        }}
-                        style={styles.description}
-                    />
-
-                    <div style={styles.footer}>
-                        {currentStepNumber !== 0 && (
-                            <button
-                                onClick={() => onStepButtonClick(currentStepNumber - 1)}
-                                style={styles.button}
-                            >
-                                {prevButtonTitle}
-                            </button>
-                        )}
-
-                        <button
-                            onClick={() => onStepButtonClick(currentStepNumber + 1)}
-                            disabled={currentStepNumber + 1 === rule.length}
-                            style={styles.button}
-                        >
-                            {nextButtonTitle}
-                        </button>
+        <div style={wrapperStyle}>
+            <div style={styles.wizard}>
+                <button onClick={() => setShow(false)} style={styles.closeButton}>
+                    X
+                </button>
+                <div style={styles.info}>
+                    <div style={styles.stepsCount}>
+                        {currentStepNumber + 1} of {rule.length}
                     </div>
                 </div>
-                <div style={styles.pin} />
-                <div style={styles.pinLine} />
+
+                <div
+                    dangerouslySetInnerHTML={{ __html: currentStepContent.title }}
+                    style={styles.title}
+                />
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: currentStepContent.description,
+                    }}
+                    style={styles.description}
+                />
+
+                <div style={styles.footer}>
+                    {currentStepNumber !== 0 && (
+                        <button
+                            onClick={() => onStepButtonClick(currentStepNumber - 1)}
+                            style={styles.button}
+                        >
+                            {prevButtonTitle}
+                        </button>
+                    )}
+
+                    <button
+                        onClick={() => onStepButtonClick(currentStepNumber + 1)}
+                        disabled={currentStepNumber + 1 === rule.length}
+                        style={styles.button}
+                    >
+                        {nextButtonTitle}
+                    </button>
+                </div>
             </div>
-        </RenderInBody>
+            <div style={styles.pin} />
+            <div style={styles.pinLine} />
+        </div>
     )
 }
 

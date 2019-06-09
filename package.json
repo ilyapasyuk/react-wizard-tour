@@ -5,7 +5,8 @@
   "main": "build/index.js",
   "scripts": {
     "build": "webpack --config ./webpack.build.js",
-    "dev": "webpack-dev-server --config ./webpack.dev.js"
+    "dev": "yarn && webpack-dev-server --config ./webpack.dev.js",
+    "preview": "webpack --mode=production --config ./webpack.preview.js"
   },
   "repository": "git+https://github.com/ilyapasyuk/react-onboarding.git",
   "keywords": [
@@ -42,6 +43,7 @@
     "html-webpack-plugin": "^3.2.0",
     "prettier": "^1.17.1",
     "react-dom": "^16.8.6",
+    "terser-webpack-plugin": "^1.3.0",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.4.1"
