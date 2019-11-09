@@ -128,11 +128,7 @@ const Wizard = ({
     if (!isShowState || !position) {
         return null
     }
-    console.log(
-        '%c currentStepNumber ',
-        'color: white; background-color: #2274A5',
-        currentStepNumber,
-    )
+
     return (
         <div style={wrapperStyle}>
             <div style={styles.wizard}>
