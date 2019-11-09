@@ -1,12 +1,10 @@
 {
-  "name": "@ilyapasyuk/react-wizard-tour",
-  "version": "1.1.6",
+  "name": "react-onboarding",
+  "version": "1.1.7",
   "description": "Simple Wizard component for React.js",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "webpack --config ./webpack.build.js",
-    "dev": "yarn && webpack-dev-server --config ./webpack.dev.js",
-    "preview": "webpack --mode=production --config ./webpack.preview.js"
+    "prepublishOnly": "babel ./src --out-dir ./dist -s inline",
   },
   "repository": "git@github.com:ilyapasyuk/react-wizard-tour.git",
   "keywords": [
@@ -30,23 +28,10 @@
     "react": "^16.11.0"
   },
   "devDependencies": {
-    "@babel/core": "7.7.2",
-    "@babel/plugin-proposal-class-properties": "7.7.0",
-    "@babel/plugin-proposal-decorators": "7.7.0",
-    "@babel/plugin-syntax-dynamic-import": "7.2.0",
-    "@babel/preset-env": "7.7.1",
-    "@babel/preset-react": "7.7.0",
-    "babel-loader": "8.0.6",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "prettier": "^1.19.1",
-    "react-dom": "^16.11.0",
-    "terser-webpack-plugin": "^2.2.1",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.9.0"
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0"
   },
   "private": false
 }
