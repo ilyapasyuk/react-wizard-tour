@@ -95,13 +95,15 @@ const styles = {
 const defaultPrevButtonTitle = 'Prev'
 const defaultNextButtonTitle = 'Next'
 
-const Wizard = ({
-    isShow,
-    rule,
-    defaultStepNumber = 0,
-    prevButtonTitle = defaultPrevButtonTitle,
-    nextButtonTitle = defaultNextButtonTitle,
-}) => {
+const Wizard = (props) => {
+    const {
+        isShow,
+        rule,
+        defaultStepNumber = 0,
+        prevButtonTitle = defaultPrevButtonTitle,
+        nextButtonTitle = defaultNextButtonTitle,
+    } = props
+
     const [isShowState, setShow] = useState(isShow)
     const [transition, setTransition] = useState(null)
     const [position, setPosition] = useState(undefined)

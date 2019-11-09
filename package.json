@@ -1,6 +1,6 @@
 {
   "name": "@ilyapasyuk/react-wizard-tour",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Simple Wizard component for React.js",
   "main": "index.js",
   "scripts": {
