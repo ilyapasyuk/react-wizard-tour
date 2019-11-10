@@ -1,6 +1,6 @@
 {
   "name": "react-onboarding",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "description": "Simple Wizard component for React.js",
   "main": "dist/wizard.min.js",
   "scripts": {
@@ -26,7 +26,11 @@
   },
   "homepage": "https://github.com/ilyapasyuk/react-onboarding#readme",
   "devDependencies": {
-    "babel-preset-react": "^6.24.1",
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/plugin-transform-react-jsx": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
     "react": "^16.11.0",
     "rollup": "^1.26.4",
     "rollup-plugin-babel": "^4.3.3",
