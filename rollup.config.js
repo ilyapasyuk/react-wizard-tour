@@ -1,13 +1,11 @@
-import { terser } from "rollup-plugin-terser";
+import { terser } from 'rollup-plugin-terser'
 import babel from 'rollup-plugin-babel'
 
 const config = {
     input: 'src/index.js',
-    external: ['react'],
+    external: ['react', 'prop-types'],
     output: [
-        { file: 'lib.js', format: 'cjs' },
-        { file: 'lib.min.js', format: 'cjs' },
-        { file: 'lib.esm.js', format: 'es' },
+        { file: 'dist/wizard.min.js', format: 'cjs' },
     ],
     plugins: [
         babel({
@@ -15,8 +13,8 @@ const config = {
         }),
         terser({
             include: [/^.+\.min\.js$/, '*esm*'],
-            exclude: [ 'some*' ]
-        })
+            exclude: ['some*'],
+        }),
     ],
 }
 

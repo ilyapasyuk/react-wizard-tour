@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 
 const styles = {
     wizard: {
@@ -92,22 +93,17 @@ const styles = {
     },
 }
 
-const defaultPrevButtonTitle = 'Prev'
-const defaultNextButtonTitle = 'Next'
-
-const Wizard = (props) => {
-    const {
-        isShow,
-        rule,
-        defaultStepNumber = 0,
-        prevButtonTitle = defaultPrevButtonTitle,
-        nextButtonTitle = defaultNextButtonTitle,
-    } = props
+const Wizard = ({
+                    isShow,
+                    rule,
+                    prevButtonTitle,
+                    nextButtonTitle,
+                }) => {
 
     const [isShowState, setShow] = useState(isShow)
     const [transition, setTransition] = useState(null)
     const [position, setPosition] = useState(undefined)
-    const [currentStepNumber, setCurrentStepNumber] = useState(defaultStepNumber)
+    const [currentStepNumber, setCurrentStepNumber] = useState(0)
     const currentStepContent = getStep(currentStepNumber, rule)
 
     const wrapperStyle = {
@@ -119,7 +115,7 @@ const Wizard = (props) => {
 
     useEffect(() => {
         setPosition(getCoords(getStep(currentStepNumber, rule).elementId))
-    }, [])
+    }, [rule])
 
     function onStepButtonClick(stepNumber) {
         setCurrentStepNumber(stepNumber)
@@ -173,8 +169,8 @@ const Wizard = (props) => {
                     </button>
                 </div>
             </div>
-            <div style={styles.pin} />
-            <div style={styles.pinLine} />
+            <div style={styles.pin}/>
+            <div style={styles.pinLine}/>
         </div>
     )
 }
@@ -191,6 +187,23 @@ function getCoords(elementId) {
         top: coordinates.top + coordinates.height / 2,
         left: coordinates.left + coordinates.width,
     }
+}
+
+Wizard.propTypes = {
+    isShow: PropTypes.bool,
+    rule: PropTypes.arrayOf(PropTypes.shape({
+        elementId: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+    })).isRequired,
+    prevButtonTitle: PropTypes.string,
+    nextButtonTitle: PropTypes.string,
+}
+
+Wizard.defaultProps = {
+    isShow: true,
+    prevButtonTitle: 'Prev',
+    nextButtonTitle: 'Next',
 }
 
 export default Wizard

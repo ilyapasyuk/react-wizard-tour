@@ -1,10 +1,10 @@
 {
   "name": "react-onboarding",
-  "version": "1.1.14",
+  "version": "1.1.15",
   "description": "Simple Wizard component for React.js",
   "main": "dist/wizard.min.js",
   "scripts": {
-    "build": "rollup -c -o dist/wizard.min.js",
+    "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "git@github.com:ilyapasyuk/react-wizard-tour.git",
@@ -35,5 +35,8 @@
     "rollup": "^1.26.4",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-terser": "^5.1.2"
+  },
+  "dependencies": {
+    "prop-types": "^15.7.2"
   }
 }
