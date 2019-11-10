@@ -1,14 +1,11 @@
 {
   "name": "react-onboarding",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "description": "Simple Wizard component for React.js",
-  "main": "build/index.js",
+  "main": "dist/wizard.min.js",
   "scripts": {
-    "start": "webpack --watch",
-    "build": "webpack"
-  },
-  "peerDependencies": {
-    "react": ">=16.11.0"
+    "build": "rollup -c -o dist/wizard.min.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "git@github.com:ilyapasyuk/react-wizard-tour.git",
   "keywords": [
@@ -29,12 +26,10 @@
   },
   "homepage": "https://github.com/ilyapasyuk/react-onboarding#readme",
   "devDependencies": {
-    "@babel/core": "^7.7.2",
-    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
-    "@babel/plugin-transform-react-jsx": "^7.7.0",
-    "@babel/preset-env": "^7.7.1",
-    "babel-loader": "^8.0.6",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+    "babel-preset-react": "^6.24.1",
+    "react": "^16.11.0",
+    "rollup": "^1.26.4",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-uglify": "^6.0.3"
   }
 }
