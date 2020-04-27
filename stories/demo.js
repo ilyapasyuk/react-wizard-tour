@@ -1,5 +1,19 @@
 import React from 'react'
 import Wizard from 'react-onboarding'
+import styled from 'styled-components'
+
+const ElementOne = styled.div`
+    width: 100px;
+    height: 100px;
+    border: 1px solid red;
+`
+
+const ElementTwo = styled.div`
+    width: 100px;
+    height: 100px;
+    border: 1px solid red;
+    margin-left: 200px;
+`
 
 const rule = [
     {
@@ -17,9 +31,14 @@ const rule = [
 const Demo = ({}) => {
     return (
         <div>
-            <div id="elementIdOne"/>
-            <div id="elementIdTwo"/>
-            <Wizard rule={rule} nextButtonTitle="Next click" prevButtonTitle="Prev click" isShow/>
+            <ElementOne id="elementIdOne" />
+            <ElementTwo id="elementIdTwo" />
+            <Wizard
+                rule={rule}
+                nextButtonTitle="Next click"
+                prevButtonTitle="Prev click"
+                isShow
+            />
         </div>
     )
 }
