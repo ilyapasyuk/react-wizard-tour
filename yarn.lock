@@ -6662,6 +6662,13 @@ react-onboarding@^1.1.18:
   dependencies:
     prop-types "^15.7.2"
 
+react-onboarding@^1.1.19:
+  version "1.1.19"
+  resolved "https://registry.yarnpkg.com/react-onboarding/-/react-onboarding-1.1.19.tgz#268ddaa84dcd2f986c0d45367912aa5a64b14878"
+  integrity sha512-9Hr1MAciZ7SI0iDP5IxiZ/+Fpg3fFBmEhF37n83SW4nj5fNFY6Jb8PMExught0PQEEhX/Lp+3kSI9DiiOf5m5w==
+  dependencies:
+    react-onboarding "^1.1.18"
+
 react-popper-tooltip@^2.8.3:
   version "2.11.1"
   resolved "https://registry.yarnpkg.com/react-popper-tooltip/-/react-popper-tooltip-2.11.1.tgz#3c4bdfd8bc10d1c2b9a162e859bab8958f5b2644"
@@ -6987,10 +6994,10 @@ rollup-pluginutils@^2.8.1, rollup-pluginutils@^2.8.2:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^2.7.2:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.7.2.tgz#0f8ee6216d33e83c0750116312c2c92b94cc7f72"
-  integrity sha512-SdtTZVMMVSPe7SNv4exUyPXARe5v/p3TeeG3LRA5WabLPJt4Usi3wVrvVlyAUTG40JJmqS6zbIHt2vWTss2prw==
+rollup@^2.7.3:
+  version "2.7.3"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.7.3.tgz#24ebb08533b9ca6bc5a7aef8100e155e50035c31"
+  integrity sha512-lAWJGZ5BQzcu/5fhMKGJrh5oy9LQUoaCid8cQV8k+E2vE9E/UWptzcM+bSBg+u8akORsvnybsqQUE/wVChIazg==
   optionalDependencies:
     fsevents "~2.1.2"
 
