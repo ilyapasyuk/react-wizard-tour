@@ -5,7 +5,6 @@ rollup.config.js
 .github
 .gitignore
 .prettierrc
-package.json
 PULL_REQUEST_TEMPLATE.md
 README.md
 yarn.lock
