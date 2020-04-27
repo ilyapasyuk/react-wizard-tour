@@ -1,13 +1,11 @@
 ### Links to the issue and related PRs
+ 
+ 
+#### Description
+ 
+ 
+### Pictures
 
- 
- 
-  #### Description
-
- 
- 
-  ### Pictures
-
-  |Before|After|
- |---|---|
- |pic1|pic2|
+|Before|After|
+|---|---|
+|pic1|pic2|

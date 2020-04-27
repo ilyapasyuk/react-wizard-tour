@@ -1,44 +1,33 @@
 {
   "name": "react-onboarding",
-  "version": "1.1.18",
+  "version": "1.1.19",
   "description": "Simple Wizard component for React.js",
-  "main": "dist/wizard.min.js",
-  "scripts": {
-    "build": "rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "dist/wizard.esm.js",
+  "module": "dist/wizard.esm.js",
   "repository": "git@github.com:ilyapasyuk/react-wizard-tour.git",
-  "keywords": [
-    "wizard",
-    "react",
-    "component",
-    "onboarding",
-    "guide",
-    "tour",
-    "usertour",
-    "tourguide",
-    "guide"
+  "files": [
+    "dist"
   ],
   "author": "pasyuk.com@gmail.com",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ilyapasyuk/react-onboarding/issues"
   },
-  "homepage": "https://github.com/ilyapasyuk/react-onboarding#readme",
-  "devDependencies": {
-    "@babel/core": "^7.7.2",
-    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
-    "@babel/plugin-transform-react-jsx": "^7.7.0",
-    "@babel/preset-env": "^7.7.1",
-    "@babel/preset-react": "^7.7.0",
-    "prettier": "^1.19.1",
-    "react": "^16.11.0",
-    "rollup": "^1.26.4",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-terser": "^5.1.2",
-    "styled-components": "^4.4.1"
+  "scripts": {
+    "prepublishOnly": "rollup -c"
   },
-  "dependencies": {
-    "prop-types": "^15.7.2"
+  "private": false,
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.9.5",
+    "@babel/plugin-transform-react-jsx": "^7.9.4",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "rollup": "^2.7.2",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-terser": "^5.3.0",
+    "styled-components": "^5.1.0"
   }
 }
