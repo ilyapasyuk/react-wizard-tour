@@ -33,12 +33,12 @@
     "prettier": "^2.0.5",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
-    "rollup": "^2.7.2",
+    "rollup": "^2.7.3",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-terser": "^5.3.0",
     "styled-components": "^5.1.0"
   },
   "dependencies": {
-    "react-onboarding": "^1.1.18"
+    "react-onboarding": "^1.1.19"
   }
 }
