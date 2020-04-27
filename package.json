@@ -14,7 +14,9 @@
     "url": "https://github.com/ilyapasyuk/react-onboarding/issues"
   },
   "scripts": {
-    "prepublishOnly": "rollup -c"
+    "prepublishOnly": "rollup -c",
+    "storybook": "start-storybook -p 6006",
+    "build": "build-storybook"
   },
   "private": false,
   "devDependencies": {
@@ -23,11 +25,20 @@
     "@babel/plugin-transform-react-jsx": "^7.9.4",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
+    "@storybook/addon-actions": "^5.3.18",
+    "@storybook/addon-links": "^5.3.18",
+    "@storybook/addons": "^5.3.18",
+    "@storybook/react": "^5.3.18",
+    "babel-loader": "^8.1.0",
+    "prettier": "^2.0.5",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "rollup": "^2.7.2",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-terser": "^5.3.0",
     "styled-components": "^5.1.0"
+  },
+  "dependencies": {
+    "react-onboarding": "^1.1.18"
   }
 }
