@@ -1,7 +1,7 @@
 import typescript from '@rollup/plugin-typescript'
 
 export default {
-    input: './src/Wizard.tsx',
+    input: './src/Wizard/index.tsx',
     output: [
         {
             file: 'dist/wizard.esm.js',
