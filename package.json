@@ -2,7 +2,7 @@
   "name": "react-onboarding",
   "version": "1.2.5",
   "types": "dist/index.d.ts",
-  "description": "Simple Wizard component for React.js",
+  "description": "Simple Wizard component for React",
   "main": "dist/wizard.esm.js",
   "module": "dist/wizard.esm.js",
   "repository": "git@github.com:ilyapasyuk/react-wizard-tour.git",
