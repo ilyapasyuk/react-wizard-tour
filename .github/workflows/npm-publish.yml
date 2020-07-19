@@ -32,8 +32,9 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
+      - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.PERSONAL_REGISTRY }}" >> ~/.npmrc
       - run: yarn
       - run: yarn ci
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_PERSONAL_REGISTRY}}
+          NODE_AUTH_TOKEN: ${{secrets.PERSONAL_REGISTRY}}
