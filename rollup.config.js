@@ -1,4 +1,5 @@
 import typescript from '@rollup/plugin-typescript'
+import copy from 'rollup-plugin-copy'
 
 export default {
     input: './src/Wizard/index.tsx',
@@ -15,5 +16,10 @@ export default {
         },
     ],
     external: ['react'],
-    plugins: [typescript()],
+    plugins: [
+        typescript(),
+        copy({
+            targets: [{ src: 'src/index.d.ts', dest: 'dist' }],
+        }),
+    ],
 }

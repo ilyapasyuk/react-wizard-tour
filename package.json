@@ -1,6 +1,7 @@
 {
   "name": "react-onboarding",
-  "version": "1.2.0",
+  "version": "1.2.1",
+  "types": "src/index.d.ts",
   "description": "Simple Wizard component for React.js",
   "main": "dist/wizard.esm.js",
   "module": "dist/wizard.esm.js",
@@ -51,6 +52,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-object-rest-spread": "^7.10.4",
     "@rollup/plugin-typescript": "^5.0.2",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "rollup-plugin-copy": "^3.3.0"
   }
 }
