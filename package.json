@@ -1,6 +1,6 @@
 {
   "name": "react-onboarding",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "types": "dist/index.d.ts",
   "description": "Simple Wizard component for React.js",
   "main": "dist/wizard.esm.js",
@@ -32,7 +32,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepublishOnly": "rollup -c"
+    "ci": "rollup -c"
   },
   "eslintConfig": {
     "extends": "react-app"
