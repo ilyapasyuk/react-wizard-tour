@@ -5,13 +5,13 @@
 /.pnp
 .pnp.js
 .idea
-dist
 
 # testing
 /coverage
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
