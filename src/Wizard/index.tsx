@@ -27,7 +27,7 @@ type Coordinates = {
     left: number
 }
 
-const Index = ({
+const Wizard = ({
     isShow = true,
     rule,
     prevButtonTitle = 'Prev',
@@ -108,4 +108,4 @@ function getCoords(elementId: string): Coordinates {
     }
 }
 
-export default Index
+export default Wizard

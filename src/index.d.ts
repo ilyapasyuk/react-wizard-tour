@@ -19,4 +19,4 @@ export interface ReactOnboardingProps {
     nextButtonStyledTitle?: string
 }
 
-export default class ReactOnboarding extends React.Component<ReactOnboardingProps> {}
+export default class Wizard extends React.Component<ReactOnboardingProps> {}
