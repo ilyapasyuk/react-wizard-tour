@@ -11,12 +11,13 @@ jobs:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
+      - uses: funkyremi/yarn-github-action@1.0.0
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
+      - run: yarn ci
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
@@ -24,12 +25,13 @@ jobs:
   publish-gpr:
     runs-on: ubuntu-latest
     steps:
+      - uses: funkyremi/yarn-github-action@1.0.0
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-      - run: npm ci
+      - run: yarn ci
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_PERSONAL_REGISTRY}}
