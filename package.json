@@ -1,7 +1,7 @@
 {
   "name": "react-onboarding",
-  "version": "1.2.1",
-  "types": "src/index.d.ts",
+  "version": "1.2.2",
+  "types": "dist/index.d.ts",
   "description": "Simple Wizard component for React.js",
   "main": "dist/wizard.esm.js",
   "module": "dist/wizard.esm.js",
