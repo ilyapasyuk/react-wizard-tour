@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Step } from '../index'
 
 import {
     StyledCloseButton,
@@ -14,17 +15,11 @@ import {
     StyledWrapper,
 } from './style'
 
-type Step = {
-    elementId: string
-    StyledTitle: string
-    StyledDescription?: string
-}
-
 interface Props {
     isShow?: boolean
     rule: Step[]
-    prevButtonStyledTitle?: string
-    nextButtonStyledTitle?: string
+    prevButtonTitle?: string
+    nextButtonTitle?: string
 }
 
 type Coordinates = {
@@ -35,8 +30,8 @@ type Coordinates = {
 const Index = ({
     isShow = true,
     rule,
-    prevButtonStyledTitle = 'Prev',
-    nextButtonStyledTitle = 'Next',
+    prevButtonTitle = 'Prev',
+    nextButtonTitle = 'Next',
 }: Props) => {
     const [isShowState, setShow] = useState<boolean>(isShow)
     const [position, setPosition] = useState<Coordinates>({ top: 0, left: 0 })
@@ -67,18 +62,16 @@ const Index = ({
                 </StyledInfo>
 
                 <StyledTitle
-                    dangerouslySetInnerHTML={{ __html: currentStepContent.StyledTitle }}
+                    dangerouslySetInnerHTML={{ __html: currentStepContent.title }}
                 />
-                <StyledDescription>
-                    {currentStepContent.StyledDescription}
-                </StyledDescription>
+                <StyledDescription>{currentStepContent.description}</StyledDescription>
 
                 <StyledFooter>
                     {currentStepNumber !== 0 && (
                         <StyledStepButton
                             onClick={() => onStepButtonClick(currentStepNumber - 1)}
                         >
-                            {prevButtonStyledTitle}
+                            {prevButtonTitle}
                         </StyledStepButton>
                     )}
 
@@ -87,7 +80,7 @@ const Index = ({
                             onClick={() => onStepButtonClick(currentStepNumber + 1)}
                             // disabled={currentStepNumber + 1 === rule.length}
                         >
-                            {nextButtonStyledTitle}
+                            {nextButtonTitle}
                         </StyledStepButton>
                     )}
                 </StyledFooter>
