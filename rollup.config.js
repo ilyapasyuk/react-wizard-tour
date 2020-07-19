@@ -1,25 +1,19 @@
-import { terser } from 'rollup-plugin-terser'
-import babel from 'rollup-plugin-babel'
+import typescript from '@rollup/plugin-typescript'
 
-const config = {
-    input: './src/index.js',
-    external: ['react', 'prop-types'],
+export default {
+    input: './src/Wizard.tsx',
     output: [
         {
             file: 'dist/wizard.esm.js',
             format: 'esm',
+            plugins: [typescript()],
         },
         {
             file: 'dist/wizard.esm.min.js',
             format: 'esm',
-            plugins: [terser()],
+            plugins: [typescript()],
         },
     ],
-    plugins: [
-        babel({
-            exclude: 'node_modules/**',
-        }),
-    ],
+    external: ['react'],
+    plugins: [typescript()],
 }
-
-export default config

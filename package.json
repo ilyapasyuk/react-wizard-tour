@@ -1,6 +1,6 @@
 {
   "name": "react-onboarding",
-  "version": "1.1.19",
+  "version": "1.2.0",
   "description": "Simple Wizard component for React.js",
   "main": "dist/wizard.esm.js",
   "module": "dist/wizard.esm.js",
@@ -13,32 +13,44 @@
   "bugs": {
     "url": "https://github.com/ilyapasyuk/react-onboarding/issues"
   },
-  "scripts": {
-    "prepublishOnly": "rollup -c",
-    "storybook": "start-storybook -p 6006",
-    "build": "build-storybook"
-  },
   "private": false,
-  "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.9.5",
-    "@babel/plugin-transform-react-jsx": "^7.9.4",
-    "@babel/preset-env": "^7.9.5",
-    "@babel/preset-react": "^7.9.4",
-    "@storybook/addon-actions": "^5.3.18",
-    "@storybook/addon-links": "^5.3.18",
-    "@storybook/addons": "^5.3.18",
-    "@storybook/react": "^5.3.18",
-    "babel-loader": "^8.1.0",
-    "prettier": "^2.0.5",
-    "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "rollup": "^2.7.3",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-terser": "^5.3.0",
-    "styled-components": "^5.1.0"
-  },
   "dependencies": {
-    "react-onboarding": "^1.1.19"
+    "@types/node": "^14.0.23",
+    "@types/react": "^16.9.43",
+    "@types/react-dom": "^16.9.8",
+    "@types/styled-components": "^5.1.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1",
+    "rollup": "^2.22.1",
+    "styled-components": "^5.1.1",
+    "typescript": "^3.9.7"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "prepublishOnly": "rollup -c"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-object-rest-spread": "^7.10.4",
+    "@rollup/plugin-typescript": "^5.0.2",
+    "prettier": "^2.0.5"
   }
 }
