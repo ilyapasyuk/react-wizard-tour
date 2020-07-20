@@ -1,6 +1,6 @@
 {
   "name": "react-onboarding",
-  "version": "1.2.11",
+  "version": "1.2.12",
   "types": "dist/index.d.ts",
   "description": "Simple Wizard component for React",
   "main": "dist/wizard.esm.js",
@@ -26,9 +26,6 @@
     "rollup": "^2.22.1",
     "styled-components": "^5.1.1",
     "typescript": "^3.9.7"
-  },
-  "publishConfig": {
-    "registry":"https://npm.pkg.github.com/@ilyapasyuk"
   },
   "scripts": {
     "start": "react-scripts start",
