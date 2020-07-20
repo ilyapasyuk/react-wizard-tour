@@ -15,8 +15,8 @@ type Step = {
 export interface ReactOnboardingProps {
     isShow?: boolean
     rule: Step[]
-    prevButtonStyledTitle?: string
-    nextButtonStyledTitle?: string
+    prevButtonTitle?: string
+    nextButtonTitle?: string
 }
 
 export default class Wizard extends React.Component<ReactOnboardingProps> {}

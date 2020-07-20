@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Step } from '../index'
+import { Step, ReactOnboardingProps } from '../index'
 
 import {
     StyledCloseButton,
@@ -15,13 +15,6 @@ import {
     StyledWrapper,
 } from './style'
 
-interface Props {
-    isShow?: boolean
-    rule: Step[]
-    prevButtonTitle?: string
-    nextButtonTitle?: string
-}
-
 type Coordinates = {
     top: number
     left: number
@@ -32,7 +25,7 @@ const Wizard = ({
     rule,
     prevButtonTitle = 'Prev',
     nextButtonTitle = 'Next',
-}: Props) => {
+}: ReactOnboardingProps) => {
     const [isShowState, setShow] = useState<boolean>(isShow)
     const [position, setPosition] = useState<Coordinates>({ top: 0, left: 0 })
     const [currentStepNumber, setCurrentStepNumber] = useState<number>(0)

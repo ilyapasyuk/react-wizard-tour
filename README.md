@@ -1,6 +1,7 @@
 # react-onboarding [![](https://img.shields.io/twitter/url/http/shields.io.svg?style=social?style=social)](https://github.com/ilyapasyuk/react-onboarding)
  
 Simple wizard component for React.js
++ TypeScript ready
 
 ![size](https://img.shields.io/bundlephobia/min/react-onboarding.svg)
 ![](https://img.shields.io/npm/v/react-onboarding.svg?style=flat-square)
