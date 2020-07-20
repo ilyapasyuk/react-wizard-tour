@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-          registry-url: https://registry.npmjs.org/
+          registry-url: 'https://registry.npmjs.org'
       - run: yarn
       - run: yarn ci
       - run: npm publish
@@ -31,7 +31,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-          registry-url: https://npm.pkg.github.com/@ilyapasyuk
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@ilyapasyuk'
       - run: yarn
       - run: yarn ci
       - run: npm publish
