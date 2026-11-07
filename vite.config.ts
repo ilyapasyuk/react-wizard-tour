@@ -2,20 +2,25 @@ import react from '@vitejs/plugin-react'
 import { playwright } from '@vitest/browser-playwright'
 import { defineConfig } from 'vitest/config'
 
-export default defineConfig({
+/** The library build; `vite build --mode demo` builds the demo site instead. */
+const libraryBuild = {
+  lib: {
+    entry: 'src/Wizard/index.ts',
+    formats: ['es' as const],
+    fileName: 'index',
+  },
+  rollupOptions: {
+    external: [/^react($|\/)/, /^react-dom($|\/)/, /^@floating-ui\//],
+    output: { banner: "'use client';" },
+  },
+}
+
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
   server: { port: 3000, open: true },
-  build: {
-    lib: {
-      entry: 'src/Wizard/index.ts',
-      formats: ['es'],
-      fileName: 'index',
-    },
-    rollupOptions: {
-      external: [/^react($|\/)/, /^react-dom($|\/)/, /^@floating-ui\//],
-      output: { banner: "'use client';" },
-    },
-  },
+  // Relative base: the demo works on GitHub Pages under /react-wizard-tour/.
+  base: mode === 'demo' ? './' : '/',
+  build: mode === 'demo' ? { outDir: 'demo-dist' } : libraryBuild,
   test: {
     globals: true,
     coverage: { include: ['src/Wizard/**'], exclude: ['**/*.test.tsx', '**/types.ts'] },
@@ -46,4 +51,4 @@ export default defineConfig({
       },
     ],
   },
-})
+}))

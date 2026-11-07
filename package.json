@@ -1,19 +1,23 @@
 {
   "name": "react-onboarding",
   "version": "2.0.0",
-  "description": "Lightweight onboarding tour component for React",
+  "description": "Product tours for React: spotlight, animated steps, keyboard and screen reader support. 2.4 KB.",
   "keywords": [
     "react",
     "onboarding",
+    "product-tour",
     "tour",
-    "wizard",
     "walkthrough",
-    "tooltip"
+    "spotlight",
+    "coachmark",
+    "tooltip",
+    "popover",
+    "guide"
   ],
   "type": "module",
   "license": "MIT",
   "author": "pasyuk.com@gmail.com",
-  "homepage": "https://github.com/ilyapasyuk/react-wizard-tour#readme",
+  "homepage": "https://ilyapasyuk.github.io/react-wizard-tour/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ilyapasyuk/react-wizard-tour.git"
@@ -47,7 +51,8 @@
     "test:browser": "vitest run --project browser",
     "coverage": "vitest run --coverage",
     "mutation": "stryker run",
-    "prepublishOnly": "npm run lint && npm run typecheck && npm test && npm run build"
+    "prepublishOnly": "npm run lint && npm run typecheck && npm test && npm run build",
+    "build:demo": "vite build --mode demo"
   },
   "peerDependencies": {
     "react": ">=18",

@@ -27,3 +27,4 @@ yarn-error.log*
 # mutation testing
 /reports
 /.vitest
+/demo-dist
