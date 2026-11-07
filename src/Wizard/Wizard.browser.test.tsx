@@ -29,8 +29,22 @@ function renderAt(left: number, top: number, placement?: WizardPlacement) {
   )
 }
 
-/** Waits until floating-ui has placed the card. */
-const placed = () => expect.poll(() => box(dialog()).left).not.toBe(0)
+/** Waits until the card's enter and move animations have finished. */
+const settled = () =>
+  Promise.all(
+    dialog()
+      .getAnimations({ subtree: true })
+      // The pin's beacon pulse is decoration and does not move anything.
+      .filter((animation) => (animation.effect as KeyframeEffect).pseudoElement !== '::before')
+      // A cancelled animation (a remounted node) rejects `finished`; it is settled too.
+      .map((animation) => animation.finished.catch(() => undefined)),
+  )
+
+/** Waits until floating-ui has placed the card and it has finished animating in. */
+const placed = async () => {
+  await expect.poll(() => box(dialog()).left).not.toBe(0)
+  await settled()
+}
 
 /** A tall page whose tour starts from a button at the top. */
 function TallPage() {
@@ -148,8 +162,56 @@ describe('Wizard positioning', () => {
     window.scrollTo(0, 0)
   })
 
-  it('centres the card when the target is missing', () => {
+  it('outlines the target with the spotlight', async () => {
+    renderAt(100, 300)
+    await placed()
+    const spotlight = document.querySelector('.Wizard__Spotlight') as HTMLElement
+    await Promise.all(spotlight.getAnimations().map((animation) => animation.finished))
+    const target = box(getTarget())
+    const outline = box(spotlight)
+
+    expect(spotlight.matches(':popover-open')).toBe(true)
+    expect(getComputedStyle(spotlight).opacity).toBe('1')
+    expectNear(outline.left, target.left - 6)
+    expectNear(outline.top, target.top - 6)
+    expectNear(outline.width, target.width + 12)
+    expectNear(outline.height, target.height + 12)
+  })
+
+  it('renders no spotlight when it is turned off', () => {
+    render(<Wizard steps={[{ target: 'body', title: 'Plain' }]} spotlight={false} />)
+    expect(document.querySelector('.Wizard__Spotlight')).toBeNull()
+  })
+
+  it('glides to the next target instead of jumping', async () => {
+    render(
+      <>
+        <div id="a" style={{ position: 'fixed', left: 100, top: 100, width: 100, height: 40 }} />
+        <div id="b" style={{ position: 'fixed', left: 100, top: 500, width: 100, height: 40 }} />
+        <Wizard
+          steps={[
+            { target: '#a', title: 'A' },
+            { target: '#b', title: 'B' },
+          ]}
+          scrollToTarget={false}
+        />
+      </>,
+    )
+    await placed()
+    const start = box(dialog()).top
+    await userEvent.keyboard('{ArrowRight}')
+    await expect.poll(() => box(dialog()).top).toBeGreaterThan(start + 20)
+    const midway = box(dialog()).top
+    await settled()
+    const end = box(dialog()).top
+
+    expect(end - start).toBeCloseTo(400, 0)
+    expect(midway).toBeLessThan(end - 20)
+  })
+
+  it('centres the card when the target is missing', async () => {
     render(<Wizard steps={[{ target: '#nowhere', title: 'Lost' }]} />)
+    await settled()
     const card = box(dialog())
     expectNear(card.left + card.width / 2, 500)
     expectNear(card.top + card.height / 2, 350)

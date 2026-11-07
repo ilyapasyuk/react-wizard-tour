@@ -1,51 +1,103 @@
-.Wizard {
-  --wizard-accent: #1787fc;
-  --wizard-bg: #fff;
-  --wizard-fg: hsl(0 0% 9%);
-  --wizard-muted: hsl(0 0% 36%);
-  --wizard-border: hsl(0 0% 90%);
-  --wizard-button-bg: hsl(0 0% 95%);
-  --wizard-primary-bg: hsl(0 0% 9%);
-  --wizard-primary-fg: #fff;
-  --wizard-radius: 8px;
-  --wizard-width: 260px;
-  --wizard-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+/*
+ * Public tokens: set any --wizard-* on :root or on your own class.
+ * Internal --_* tokens read them with defaults; light-dark() follows `color-scheme`.
+ */
+.Wizard,
+.Wizard__Spotlight {
+  color-scheme: var(--wizard-color-scheme, light dark);
 
-  /* Reset the UA popover styles: the card positions itself. */
+  --_accent: var(--wizard-accent, #4f46e5);
+  --_accent-fg: var(--wizard-accent-fg, #fff);
+  --_bg: var(--wizard-bg, light-dark(#fff, #18181b));
+  --_fg: var(--wizard-fg, light-dark(#18181b, #fafafa));
+  --_muted: var(--wizard-muted, light-dark(#71717a, #a1a1aa));
+  --_border: var(--wizard-border, light-dark(rgb(0 0 0 / 0.08), rgb(255 255 255 / 0.1)));
+  --_button-bg: var(--wizard-button-bg, light-dark(#f4f4f5, #27272a));
+  --_button-hover: var(--wizard-button-hover, light-dark(#e4e4e7, #3f3f46));
+  --_backdrop: var(--wizard-backdrop, light-dark(rgb(9 9 11 / 0.45), rgb(0 0 0 / 0.65)));
+  --_radius: var(--wizard-radius, 14px);
+  --_width: var(--wizard-width, 300px);
+  --_shadow: var(
+    --wizard-shadow,
+    0 1px 2px rgb(0 0 0 / 0.06),
+    0 4px 8px rgb(0 0 0 / 0.06),
+    0 16px 40px rgb(0 0 0 / 0.16)
+  );
+
+  --_ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --_ease-move: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Keep in sync with MOVE_MS in Card.tsx. */
+  --_move: 320ms;
+}
+
+/* Reset UA popover styles: both elements position themselves. */
+.Wizard,
+.Wizard__Spotlight {
   position: fixed;
   inset: auto;
   margin: 0;
+  padding: 0;
+  border: 0;
   overflow: visible;
+  background: transparent;
+  color: inherit;
+}
 
+/* ---------- Card ---------- */
+
+.Wizard {
   box-sizing: border-box;
-  width: var(--wizard-width);
+  width: var(--_width);
   max-width: calc(100vw - 16px);
-  padding: 16px;
-  border: 1px solid var(--wizard-border);
-  border-radius: var(--wizard-radius);
-  background: var(--wizard-bg);
-  color: var(--wizard-fg);
-  box-shadow: var(--wizard-shadow);
+  padding: 18px 18px 16px;
+  border-radius: var(--_radius);
+  background: var(--_bg);
+  color: var(--_fg);
+  box-shadow:
+    0 0 0 1px var(--_border),
+    var(--_shadow);
   font:
-    13px / 1.5 system-ui,
+    14px / 1.5 ui-sans-serif,
+    system-ui,
     -apple-system,
     "Segoe UI",
     Roboto,
     sans-serif;
+  -webkit-font-smoothing: antialiased;
   z-index: 2147483647;
+
+  /* Enter: grow from the side that faces the target. */
+  opacity: 1;
+  scale: 1;
+  transition:
+    opacity 200ms var(--_ease-out),
+    scale 200ms var(--_ease-out);
+
+  @starting-style {
+    opacity: 0;
+    scale: 0.96;
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  .Wizard {
-    --wizard-bg: hsl(0 0% 11%);
-    --wizard-fg: hsl(0 0% 95%);
-    --wizard-muted: hsl(0 0% 68%);
-    --wizard-border: hsl(0 0% 22%);
-    --wizard-button-bg: hsl(0 0% 18%);
-    --wizard-primary-bg: hsl(0 0% 95%);
-    --wizard-primary-fg: hsl(0 0% 9%);
-    --wizard-shadow: 0 4px 16px rgb(0 0 0 / 0.5);
-  }
+.Wizard[data-side="right"] {
+  transform-origin: left center;
+}
+.Wizard[data-side="left"] {
+  transform-origin: right center;
+}
+.Wizard[data-side="bottom"] {
+  transform-origin: center top;
+}
+.Wizard[data-side="top"] {
+  transform-origin: center bottom;
+}
+
+/* Glide to the next target. Only while moving: otherwise the card would lag behind scrolling. */
+.Wizard[data-moving] {
+  transition:
+    opacity 200ms var(--_ease-out),
+    scale 200ms var(--_ease-out),
+    transform var(--_move) var(--_ease-move);
 }
 
 /* Without a target the card waits in the centre of the viewport. */
@@ -53,40 +105,72 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  transform-origin: center;
 }
 
-/* The card takes focus on open only to host keyboard navigation; buttons show the ring. */
 .Wizard:focus {
   outline: none;
 }
 
 .Wizard button:focus-visible {
-  outline: 2px solid var(--wizard-accent);
+  outline: 2px solid var(--_accent);
   outline-offset: 2px;
 }
+
+/* ---------- Progress ---------- */
+
+.Wizard__Progress {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  border-radius: var(--_radius) var(--_radius) 0 0;
+  overflow: hidden;
+}
+
+.Wizard__ProgressFill {
+  height: 100%;
+  background: var(--_accent);
+  transform-origin: left;
+  transition: scale var(--_move) var(--_ease-move);
+}
+
+/* ---------- Content ---------- */
 
 .Wizard__Header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  justify-content: space-between;
+  margin: -4px -6px 6px 0;
 }
 
 .Wizard__Counter {
-  flex: 1;
-  color: var(--wizard-muted);
+  color: var(--_muted);
   font-size: 12px;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+.Wizard__Body {
+  animation: wizard-content 240ms var(--_ease-out);
 }
 
 .Wizard__Title {
   margin-bottom: 4px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 
 .Wizard__Description {
-  color: var(--wizard-muted);
+  color: var(--_muted);
+  text-wrap: pretty;
+}
+
+.Wizard__Description a {
+  color: var(--_accent);
 }
 
 .Wizard__Footer {
@@ -96,93 +180,218 @@
   margin-top: 16px;
 }
 
+/* ---------- Buttons ---------- */
+
 .Wizard button {
   font: inherit;
   cursor: pointer;
   border: none;
-  border-radius: 4px;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    scale 120ms var(--_ease-out);
+}
+
+.Wizard button:active {
+  scale: 0.97;
 }
 
 .Wizard__Close {
-  padding: 0 8px;
-  height: 24px;
-  font-size: 12px;
+  display: grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  border-radius: 8px;
   background: transparent;
-  color: var(--wizard-muted);
-}
-
-.Wizard__Close:hover {
-  color: var(--wizard-fg);
+  color: var(--_muted);
+  font-size: 12px;
 }
 
 .Wizard__Button {
+  height: 34px;
   padding: 0 14px;
-  height: 32px;
-  background: var(--wizard-button-bg);
-  color: var(--wizard-fg);
+  border-radius: 9px;
+  background: var(--_button-bg);
+  color: var(--_fg);
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .Wizard__Button_primary {
-  background: var(--wizard-primary-bg);
-  color: var(--wizard-primary-fg);
+  background: var(--_accent);
+  color: var(--_accent-fg);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.15);
 }
 
-/* Line from the card to the target, ending in a pin on the target's edge. */
+@media (hover: hover) and (pointer: fine) {
+  .Wizard__Close:hover {
+    background: var(--_button-bg);
+    color: var(--_fg);
+  }
+  .Wizard__Button:hover {
+    background: var(--_button-hover);
+  }
+  .Wizard__Button_primary:hover {
+    background: color-mix(in oklab, var(--_accent), black 12%);
+  }
+}
+
+/* ---------- Connector: line from the card to a pin on the target ---------- */
+
 .Wizard__Connector {
   position: absolute;
-  background: var(--wizard-accent);
+  background: var(--_accent);
+  animation: wizard-fade 200ms var(--_ease-out) both;
 }
 
+/* Hide the line while the card travels; it reappears once the card arrives. */
+.Wizard[data-moving] .Wizard__Connector {
+  animation-delay: calc(var(--_move) - 80ms);
+}
+
+.Wizard__Connector::before,
 .Wizard__Connector::after {
   content: "";
   position: absolute;
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: var(--wizard-accent);
-  box-shadow: 0 0 0 2px var(--wizard-bg);
+  background: var(--_accent);
+}
+
+.Wizard__Connector::after {
+  box-shadow: 0 0 0 3px var(--_bg);
+}
+
+/* Beacon: two soft pulses per step to draw the eye to the target. */
+.Wizard__Connector::before {
+  animation: wizard-pulse 1200ms var(--_ease-out) 2;
 }
 
 .Wizard[data-side="right"] .Wizard__Connector,
 .Wizard[data-side="left"] .Wizard__Connector {
   width: 24px;
-  height: 1px;
+  height: 1.5px;
 }
 
 .Wizard[data-side="top"] .Wizard__Connector,
 .Wizard[data-side="bottom"] .Wizard__Connector {
-  width: 1px;
+  width: 1.5px;
   height: 24px;
 }
 
 .Wizard[data-side="right"] .Wizard__Connector {
   right: 100%;
 }
-.Wizard[data-side="right"] .Wizard__Connector::after {
-  left: -5px;
-  top: -5px;
-}
-
 .Wizard[data-side="left"] .Wizard__Connector {
   left: 100%;
 }
-.Wizard[data-side="left"] .Wizard__Connector::after {
-  right: -5px;
-  top: -5px;
-}
-
 .Wizard[data-side="bottom"] .Wizard__Connector {
   bottom: 100%;
 }
-.Wizard[data-side="bottom"] .Wizard__Connector::after {
-  top: -5px;
-  left: -5px;
-}
-
 .Wizard[data-side="top"] .Wizard__Connector {
   top: 100%;
 }
+
+.Wizard[data-side="right"] .Wizard__Connector::before,
+.Wizard[data-side="right"] .Wizard__Connector::after {
+  left: -5px;
+  top: -4.25px;
+}
+.Wizard[data-side="left"] .Wizard__Connector::before,
+.Wizard[data-side="left"] .Wizard__Connector::after {
+  right: -5px;
+  top: -4.25px;
+}
+.Wizard[data-side="bottom"] .Wizard__Connector::before,
+.Wizard[data-side="bottom"] .Wizard__Connector::after {
+  top: -5px;
+  left: -4.25px;
+}
+.Wizard[data-side="top"] .Wizard__Connector::before,
 .Wizard[data-side="top"] .Wizard__Connector::after {
   bottom: -5px;
-  left: -5px;
+  left: -4.25px;
+}
+
+/* ---------- Spotlight ---------- */
+
+.Wizard__Spotlight {
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-radius: 10px;
+  pointer-events: none;
+  box-shadow:
+    0 0 0 2px var(--_accent),
+    0 0 0 100vmax var(--_backdrop);
+  opacity: 0;
+  transition: opacity 240ms var(--_ease-out);
+}
+
+.Wizard__Spotlight[data-active] {
+  opacity: 1;
+
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+.Wizard__Spotlight[data-moving] {
+  transition:
+    opacity 240ms var(--_ease-out),
+    translate var(--_move) var(--_ease-move),
+    width var(--_move) var(--_ease-move),
+    height var(--_move) var(--_ease-move);
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes wizard-content {
+  from {
+    opacity: 0;
+    filter: blur(2px);
+    translate: 0 3px;
+  }
+}
+
+@keyframes wizard-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes wizard-pulse {
+  from {
+    opacity: 0.6;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 3;
+  }
+}
+
+/* Reduced motion: keep fades that explain state, drop movement. */
+@media (prefers-reduced-motion: reduce) {
+  .Wizard,
+  .Wizard[data-moving] {
+    transition: opacity 150ms ease;
+  }
+  .Wizard__Spotlight[data-moving],
+  .Wizard__ProgressFill {
+    transition: opacity 150ms ease;
+  }
+  .Wizard__Body {
+    animation: wizard-fade 150ms ease;
+  }
+  .Wizard__Connector::before {
+    animation: none;
+  }
+  .Wizard button:active {
+    scale: 1;
+  }
 }

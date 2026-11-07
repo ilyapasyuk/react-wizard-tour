@@ -45,6 +45,8 @@ export interface WizardProps {
   onStepChange?: (step: number) => void
 
   labels?: WizardLabels
+  /** Dim the page and outline the target. Clicks still reach the page. Default: `true`. */
+  spotlight?: boolean
   /** Scroll the target into view on each step. Default: `true`. */
   scrollToTarget?: boolean
   className?: string
