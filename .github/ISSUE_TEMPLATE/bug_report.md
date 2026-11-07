@@ -23,6 +23,14 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
+**Versions**
+ - react-onboarding: [e.g. 2.0.0]
+ - React: [e.g. 19.3.1]
+ - Framework, if any: [e.g. Next.js 16, Vite 8]
+
+**A minimal reproduction**
+A link to a StackBlitz or CodeSandbox, or the smallest `steps` array and markup that shows the bug.
+
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS]
  - Browser [e.g. chrome, safari]
