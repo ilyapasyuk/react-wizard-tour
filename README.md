@@ -1,23 +1,25 @@
 # react-onboarding
 
-Onboarding tour for React: a card that points at an element on the page and walks the user through steps.
+Product tours for React. A card points at an element, the rest of the page dims, and the card glides from step to step.
 
-- Spotlight dims the page around the target; clicks still reach the page
-- The card glides between steps, the content crossfades; reduced motion respected
-- 2.4 KB gzip JS + 2.5 KB gzip CSS; one dependency, [`@floating-ui/react-dom`](https://floating-ui.com)
-- React 18 and 19, TypeScript types included
-- Stays attached to its target on scroll and resize, flips to another side when it does not fit
-- Renders in the browser top layer (Popover API): no `z-index` fights
-- Keyboard: `←` `→` to navigate, `Esc` to close; focus moves into the card and back
-- Light and dark themes, restyled with CSS variables
+[![npm](https://img.shields.io/npm/v/react-onboarding.svg)](https://www.npmjs.com/package/react-onboarding)
+[![CI](https://github.com/ilyapasyuk/react-wizard-tour/actions/workflows/ci.yml/badge.svg)](https://github.com/ilyapasyuk/react-wizard-tour/actions/workflows/ci.yml)
+[![size](https://img.shields.io/bundlephobia/minzip/react-onboarding.svg)](https://bundlephobia.com/package/react-onboarding)
 
-![size](https://img.shields.io/bundlephobia/minzip/react-onboarding.svg)
-![version](https://img.shields.io/npm/v/react-onboarding.svg)
+**[Live demo and playground →](https://ilyapasyuk.github.io/react-wizard-tour/)**
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/preview-dark.png" />
-  <img alt="A tour card pointing at a search field, with the rest of the page dimmed" src="docs/preview-light.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="docs/tour-dark.gif" />
+  <img alt="A six-step tour across a dashboard: the card moves between the search field, a button, stat cards, a chart and the sidebar while the rest of the page is dimmed" src="docs/tour-light.gif" width="960" />
 </picture>
+
+- **Spotlight** dims the page around the target. Clicks still reach the page.
+- **Animated steps.** The card and the spotlight glide to the next target in 320 ms; the text crossfades. Reduced motion keeps only fades.
+- **Follows its target** on scroll and resize, flips to another side near screen edges, centres itself when the target is missing or hidden.
+- **Top layer** through the Popover API: no `z-index` fights with your modals.
+- **Keyboard and screen readers:** `←` `→` navigate, `Esc` closes, focus moves into the card and back, the card is a labelled dialog.
+- **Themeable** with CSS variables; light and dark built in.
+- **Small:** 2.4 KB gzip JS + 2.5 KB gzip CSS, one dependency ([`@floating-ui/react-dom`](https://floating-ui.com)). React 18 and 19, TypeScript types included.
 
 ## Install
 
