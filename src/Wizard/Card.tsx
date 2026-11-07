@@ -7,13 +7,16 @@ import {
   shift,
   useFloating,
 } from '@floating-ui/react-dom'
-import { type KeyboardEvent, useId, useLayoutEffect, useRef, useState } from 'react'
+import { type KeyboardEvent, type ReactNode, useId, useLayoutEffect, useRef, useState } from 'react'
 
+import { Spotlight } from './Spotlight.js'
 import { resolveTarget } from './steps.js'
 import type { WizardCloseReason, WizardLabels, WizardStep } from './types.js'
 
 /** Distance between the target and the card; the connector fills it. */
 const GAP = 24
+/** How long the card and the spotlight glide to a new target. Matches `--_move` in CSS. */
+export const MOVE_MS = 320
 
 const DEFAULT_LABELS: Required<WizardLabels> = {
   prev: 'Back',
@@ -28,6 +31,7 @@ interface CardProps {
   index: number
   total: number
   labels: WizardLabels | undefined
+  spotlight: boolean
   scrollToTarget: boolean
   className: string | undefined
   onNavigate: (step: number) => void
@@ -39,6 +43,7 @@ export function Card({
   index,
   total,
   labels,
+  spotlight,
   scrollToTarget,
   className,
   onNavigate,
@@ -54,7 +59,8 @@ export function Card({
     : { label: text.next, run: () => onNavigate(index + 1) }
 
   const target = useTarget(step, scrollToTarget)
-  const { refs, style, side, connector } = usePosition(step, target)
+  const moving = useMoving(index)
+  const { refs, style, side, connector } = usePosition(step, target, index)
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') onClose('escape')
@@ -63,48 +69,83 @@ export function Card({
   }
 
   return (
-    <div
-      ref={refs.setFloating}
-      popover="manual"
-      role="dialog"
-      aria-labelledby={titleId}
-      aria-describedby={step.description == null ? undefined : descriptionId}
-      tabIndex={-1}
-      className={className ? `Wizard ${className}` : 'Wizard'}
-      data-side={side}
-      style={style}
-      onKeyDown={onKeyDown}
-    >
-      <div className="Wizard__Header">
-        <span className="Wizard__Counter">{text.counter(index + 1, total)}</span>
-        <button type="button" className="Wizard__Close" onClick={() => onClose('close')}>
-          {text.close}
-        </button>
-      </div>
-      <div id={titleId} className="Wizard__Title">
-        {step.title}
-      </div>
-      {step.description != null && (
-        <div id={descriptionId} className="Wizard__Description">
-          {step.description}
+    <>
+      {/* Rendered first so it opens below the card in the top layer. */}
+      {spotlight && <Spotlight target={target} moving={moving} />}
+      <div
+        ref={refs.setFloating}
+        popover="manual"
+        role="dialog"
+        aria-labelledby={titleId}
+        aria-describedby={step.description == null ? undefined : descriptionId}
+        tabIndex={-1}
+        className={className ? `Wizard ${className}` : 'Wizard'}
+        data-side={side}
+        data-moving={moving || undefined}
+        style={style}
+        onKeyDown={onKeyDown}
+      >
+        <div className="Wizard__Progress" aria-hidden="true">
+          <div className="Wizard__ProgressFill" style={{ scale: `${(index + 1) / total} 1` }} />
         </div>
-      )}
-      <div className="Wizard__Footer">
-        {!isFirst && (
-          <button type="button" className="Wizard__Button" onClick={() => onNavigate(index - 1)}>
-            {text.prev}
+        <div className="Wizard__Header">
+          <span className="Wizard__Counter">{text.counter(index + 1, total)}</span>
+          <CloseButton label={text.close} onClick={() => onClose('close')} />
+        </div>
+        {/* A new key per step replays the content transition; the footer keeps focus. */}
+        <div key={`body-${index}`} className="Wizard__Body">
+          <div id={titleId} className="Wizard__Title">
+            {step.title}
+          </div>
+          {step.description != null && (
+            <div id={descriptionId} className="Wizard__Description">
+              {step.description}
+            </div>
+          )}
+        </div>
+        <div className="Wizard__Footer">
+          {!isFirst && (
+            <button type="button" className="Wizard__Button" onClick={() => onNavigate(index - 1)}>
+              {text.prev}
+            </button>
+          )}
+          <button
+            type="button"
+            className="Wizard__Button Wizard__Button_primary"
+            onClick={primary.run}
+          >
+            {primary.label}
           </button>
-        )}
-        <button
-          type="button"
-          className="Wizard__Button Wizard__Button_primary"
-          onClick={primary.run}
-        >
-          {primary.label}
-        </button>
+        </div>
+        {connector}
       </div>
-      {connector}
-    </div>
+    </>
+  )
+}
+
+/** A string label becomes the accessible name of a cross icon; any other node is shown as is. */
+function CloseButton({ label, onClick }: { label: ReactNode; onClick: () => void }) {
+  const iconOnly = typeof label === 'string'
+  return (
+    <button
+      type="button"
+      className="Wizard__Close"
+      aria-label={iconOnly ? label : undefined}
+      onClick={onClick}
+    >
+      {iconOnly ? (
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+          <path
+            d="M3 3l8 8M11 3l-8 8"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+        </svg>
+      ) : (
+        label
+      )}
+    </button>
   )
 }
 
@@ -129,11 +170,30 @@ function useTarget(step: WizardStep, scrollToTarget: boolean): Element | null {
 }
 
 /**
+ * `true` for `MOVE_MS` after the step changes. CSS animates position only then,
+ * so the card glides between targets but tracks scrolling without lag.
+ */
+function useMoving(index: number): boolean {
+  const [moving, setMoving] = useState(false)
+  const shown = useRef(index)
+
+  useLayoutEffect(() => {
+    if (shown.current === index) return
+    shown.current = index
+    setMoving(true)
+    const timer = setTimeout(() => setMoving(false), MOVE_MS)
+    return () => clearTimeout(timer)
+  }, [index])
+
+  return moving
+}
+
+/**
  * Positions the card next to the target, opens it in the top layer,
  * and moves focus into it for the lifetime of the card.
  * Without a target the card sits in the centre of the viewport.
  */
-function usePosition(step: WizardStep, target: Element | null) {
+function usePosition(step: WizardStep, target: Element | null, index: number) {
   const connectorRef = useRef<HTMLDivElement>(null)
   const { refs, floatingStyles, placement, middlewareData } = useFloating({
     strategy: 'fixed',
@@ -167,6 +227,7 @@ function usePosition(step: WizardStep, target: Element | null) {
   const { x, y } = middlewareData.arrow ?? {}
   const connector = (
     <div
+      key={`connector-${index}`}
       ref={connectorRef}
       className="Wizard__Connector"
       style={side === 'left' || side === 'right' ? { top: y } : { left: x }}

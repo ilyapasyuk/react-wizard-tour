@@ -2,7 +2,9 @@
 
 Onboarding tour for React: a card that points at an element on the page and walks the user through steps.
 
-- 1.7 KB gzip JS + 1 KB CSS; one dependency, [`@floating-ui/react-dom`](https://floating-ui.com)
+- Spotlight dims the page around the target; clicks still reach the page
+- The card glides between steps, the content crossfades; reduced motion respected
+- 2.4 KB gzip JS + 2.5 KB gzip CSS; one dependency, [`@floating-ui/react-dom`](https://floating-ui.com)
 - React 18 and 19, TypeScript types included
 - Stays attached to its target on scroll and resize, flips to another side when it does not fit
 - Renders in the browser top layer (Popover API): no `z-index` fights
@@ -12,7 +14,10 @@ Onboarding tour for React: a card that points at an element on the page and walk
 ![size](https://img.shields.io/bundlephobia/minzip/react-onboarding.svg)
 ![version](https://img.shields.io/npm/v/react-onboarding.svg)
 
-![Preview](https://github.com/ilyapasyuk/react-wizard-tour/assets/5953765/83f51ea6-4d00-4eec-8328-2c6c71c28325)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/preview-dark.png" />
+  <img alt="A tour card pointing at a search field, with the rest of the page dimmed" src="docs/preview-light.png" />
+</picture>
 
 ## Install
 
@@ -68,6 +73,7 @@ const [open, setOpen] = useState(false)
 | `defaultStep`    | `number` — initial step, uncontrolled           | `0`     |
 | `onStepChange`   | `(step: number) => void`                        |         |
 | `labels`         | `{ prev, next, finish, close, counter }`        | English |
+| `spotlight`      | `boolean` — dim the page and outline the target | `true`  |
 | `scrollToTarget` | `boolean` — scroll each target into view        | `true`  |
 | `className`      | `string` — added to the card                    |         |
 
@@ -80,7 +86,7 @@ const [open, setOpen] = useState(false)
 | `description` | `ReactNode`                                         |           |
 | `placement`   | `'top' \| 'right' \| 'bottom' \| 'left'`            | `'right'` |
 
-A step whose target is not on the page shows the card in the centre of the viewport.
+A step whose target is missing or hidden (`display: none`) shows the card in the centre of the viewport.
 
 ### Labels
 
@@ -93,17 +99,26 @@ A step whose target is not on the page shows the card in the centre of the viewp
 
 ## Styling
 
-Override variables on `.Wizard` or on your own `className`:
+Set variables on `:root`, or on a class you pass as `className`:
 
 ```css
-.Wizard {
-  --wizard-accent: #e11d48; /* connector and focus ring */
+:root {
+  --wizard-accent: #e11d48; /* buttons, progress, connector, spotlight ring */
   --wizard-width: 320px;
   --wizard-radius: 12px;
 }
 ```
 
-All variables: `--wizard-accent`, `--wizard-bg`, `--wizard-fg`, `--wizard-muted`, `--wizard-border`, `--wizard-button-bg`, `--wizard-primary-bg`, `--wizard-primary-fg`, `--wizard-radius`, `--wizard-width`, `--wizard-shadow`. The card carries `data-side="top|right|bottom|left|center"`.
+| Variable | Default |
+| --- | --- |
+| `--wizard-accent`, `--wizard-accent-fg` | `#4f46e5`, `#fff` |
+| `--wizard-bg`, `--wizard-fg`, `--wizard-muted`, `--wizard-border` | light and dark values |
+| `--wizard-button-bg`, `--wizard-button-hover` | light and dark values |
+| `--wizard-backdrop` | spotlight dimming, 45% black / 65% in dark |
+| `--wizard-radius`, `--wizard-width`, `--wizard-shadow` | `14px`, `300px`, layered shadow |
+| `--wizard-color-scheme` | `light dark` — follows the OS; set `light` or `dark` to force |
+
+The card carries `data-side="top|right|bottom|left|center"` and `data-moving` while it travels between steps.
 
 ## Migrating from 1.x
 
@@ -126,7 +141,7 @@ All variables: `--wizard-accent`, `--wizard-bg`, `--wizard-fg`, `--wizard-muted`
 
 ```sh
 npm install
-npm run dev            # demo on http://localhost:3000
+npm run dev            # demo and playground on http://localhost:3000
 npm test               # unit tests in jsdom + positioning tests in Chromium
 npm run lint           # Biome
 npm run mutation       # Stryker

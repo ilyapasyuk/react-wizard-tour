@@ -1,0 +1,651 @@
+:root {
+  color-scheme: light dark;
+  --bg: light-dark(#fafafa, #09090b);
+  --surface: light-dark(#fff, #18181b);
+  --surface-2: light-dark(#f4f4f5, #27272a);
+  --fg: light-dark(#09090b, #fafafa);
+  --muted: light-dark(#71717a, #a1a1aa);
+  --line: light-dark(rgb(0 0 0 / 0.08), rgb(255 255 255 / 0.09));
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font:
+    15px / 1.6 ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+.Page {
+  --accent: var(--wizard-accent);
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------- Header ---------- */
+
+.Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.Logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.Logo__Mark {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: var(--accent);
+  transition: background-color 200ms ease;
+}
+
+.Logo__Mark::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    6px 0 0 -1.5px #fff,
+    9px 0 0 -1.5px #fff;
+}
+
+.Header__Nav {
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
+}
+
+.Header__Nav a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.Header__Nav a:hover {
+  color: var(--fg);
+}
+
+/* ---------- Hero ---------- */
+
+.Hero {
+  padding: 72px 0 56px;
+  text-align: center;
+}
+
+.Hero__Eyebrow {
+  display: inline-block;
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.Hero__Title {
+  max-width: 760px;
+  margin: 20px auto 16px;
+  font-size: clamp(36px, 6vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.Hero__Lead {
+  max-width: 560px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 17px;
+  text-wrap: pretty;
+}
+
+.Hero__Actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+/* ---------- Buttons ---------- */
+
+.Btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 44px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  font: inherit;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    scale 120ms var(--ease-out);
+}
+
+.Btn:active {
+  scale: 0.97;
+}
+
+.Btn:focus-visible,
+.Swatch:focus-visible,
+.Segmented button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.Btn_primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.18),
+    0 1px 2px rgb(0 0 0 / 0.1);
+}
+
+.Btn_code {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--fg);
+}
+
+.Btn_code code {
+  font:
+    14px ui-monospace,
+    "SF Mono",
+    Menlo,
+    monospace;
+}
+
+.Btn_code code span {
+  color: var(--muted);
+}
+
+.Btn__Hint {
+  min-width: 48px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.Btn_small {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.Btn_block {
+  width: 100%;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .Btn_primary:hover {
+    background: color-mix(in oklab, var(--accent), black 12%);
+  }
+  .Btn_code:hover {
+    border-color: color-mix(in oklab, var(--fg) 20%, transparent);
+  }
+}
+
+/* ---------- Stage: mock app + playground ---------- */
+
+.Stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+.Mock,
+.Playground,
+.Feature {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.04),
+    0 12px 32px rgb(0 0 0 / 0.06);
+}
+
+.Mock {
+  /* clip, not hidden: a hidden box is still scrolled by scrollIntoView. */
+  overflow: clip;
+}
+
+.Mock__Chrome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+}
+
+.Mock__Chrome i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--muted) 40%, transparent);
+}
+
+.Mock__Url {
+  margin: 0 auto;
+  padding: 2px 40px;
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.Mock__Body {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  min-height: 420px;
+}
+
+.Mock__Sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 10px;
+  border-right: 1px solid var(--line);
+}
+
+.Mock__Brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 8px 16px;
+  font-weight: 600;
+}
+
+.Mock__BrandMark {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent), white 40%));
+}
+
+.Mock__NavItem {
+  padding: 7px 10px;
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.Mock__NavItem_active {
+  background: var(--surface-2);
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.Mock__Main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.Mock__Toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.Mock__Search {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--muted);
+}
+
+.Mock__Search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-size: 14px;
+}
+
+.Mock__Search kbd {
+  padding: 0 6px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  font:
+    11px ui-monospace,
+    monospace;
+}
+
+.Mock__Avatar {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.Mock__Stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.Stat {
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.Stat strong {
+  margin-top: 4px;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.Stat__Delta {
+  color: #16a34a;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.Mock__Chart {
+  flex: 1;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.Mock__ChartHead {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.Mock__Muted {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.Chart {
+  display: block;
+  width: 100%;
+  height: 140px;
+}
+
+/* ---------- Playground ---------- */
+
+.Playground {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px;
+}
+
+.Playground__Title {
+  margin: 0;
+  font-size: 15px;
+}
+
+.Field {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.Field legend {
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.Swatches {
+  display: flex;
+  gap: 8px;
+}
+
+.Swatch {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.1);
+  transition:
+    scale 120ms var(--ease-out),
+    box-shadow 150ms ease;
+}
+
+.Swatch:active {
+  scale: 0.92;
+}
+
+.Swatch[aria-pressed="true"] {
+  box-shadow:
+    0 0 0 2px var(--surface),
+    0 0 0 4px currentColor;
+  color: var(--fg);
+}
+
+.Segmented {
+  display: flex;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--surface-2);
+}
+
+.Segmented button {
+  flex: 1;
+  height: 30px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.Segmented button[aria-pressed="true"] {
+  background: var(--surface);
+  color: var(--fg);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+}
+
+.Toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.Toggle input {
+  position: absolute;
+  opacity: 0;
+}
+
+.Toggle__Track {
+  position: relative;
+  width: 36px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition: background-color 150ms ease;
+}
+
+.Toggle__Track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+  transition: translate 200ms var(--ease-out);
+}
+
+.Toggle input:checked + .Toggle__Track {
+  background: var(--accent);
+}
+
+.Toggle input:checked + .Toggle__Track::after {
+  translate: 14px 0;
+}
+
+.Toggle input:focus-visible + .Toggle__Track {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.Code {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  font:
+    12px / 1.6 ui-monospace,
+    "SF Mono",
+    Menlo,
+    monospace;
+  white-space: pre-wrap;
+}
+
+/* ---------- Features ---------- */
+
+.Features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  padding: 72px 0 48px;
+}
+
+.Feature {
+  padding: 20px;
+  box-shadow: none;
+}
+
+.Feature h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+.Feature p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.Footer {
+  padding: 24px 0 48px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ---------- Narrow screens ---------- */
+
+@media (max-width: 900px) {
+  .Stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .Playground {
+    position: static;
+  }
+  .Features {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .Page {
+    padding: 0 16px;
+  }
+  .Header__Nav a:not(.Header__GitHub) {
+    display: none;
+  }
+  .Hero {
+    padding: 40px 0 32px;
+  }
+  .Mock__Body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .Mock__Sidebar,
+  .Mock__Avatar {
+    display: none;
+  }
+  .Mock__Stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Btn:active,
+  .Swatch:active {
+    scale: 1;
+  }
+}

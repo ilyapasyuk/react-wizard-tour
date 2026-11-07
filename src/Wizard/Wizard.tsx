@@ -13,6 +13,7 @@ export function Wizard({
   defaultStep = 0,
   onStepChange,
   labels,
+  spotlight = true,
   scrollToTarget = true,
   className,
 }: WizardProps) {
@@ -42,6 +43,7 @@ export function Wizard({
       index={index}
       total={steps.length}
       labels={labels}
+      spotlight={spotlight}
       scrollToTarget={scrollToTarget}
       className={className}
       onNavigate={goTo}

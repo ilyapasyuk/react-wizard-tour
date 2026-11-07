@@ -65,6 +65,7 @@ describe('Wizard', () => {
     await user.click(button('Next'))
     expect(dialog()).toHaveAccessibleName('Second')
     expect(screen.getByText('2 of 3')).toBeInTheDocument()
+    expect(screen.queryByText('First')).not.toBeInTheDocument()
 
     await user.click(button('Back'))
     expect(dialog()).toHaveAccessibleName('First')
