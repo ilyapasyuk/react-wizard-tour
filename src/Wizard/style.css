@@ -1,175 +1,188 @@
-[data-wizard-onboarding] {
-  font-family:
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    Segoe UI,
-    Roboto,
-    Helvetica Neue,
-    Arial,
-    Noto Sans,
-    sans-serif,
-    Apple Color Emoji,
-    Segoe UI Emoji,
-    Segoe UI Symbol,
-    Noto Color Emoji;
+.Wizard {
+  --wizard-accent: #1787fc;
+  --wizard-bg: #fff;
+  --wizard-fg: hsl(0 0% 9%);
+  --wizard-muted: hsl(0 0% 36%);
+  --wizard-border: hsl(0 0% 90%);
+  --wizard-button-bg: hsl(0 0% 95%);
+  --wizard-primary-bg: hsl(0 0% 9%);
+  --wizard-primary-fg: #fff;
+  --wizard-radius: 8px;
+  --wizard-width: 260px;
+  --wizard-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
 
-  --width: 226px;
+  /* Reset the UA popover styles: the card positions itself. */
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  overflow: visible;
 
-  --gray1: hsl(0, 0%, 99%);
-  --gray2: hsl(0, 0%, 97.3%);
-  --gray3: hsl(0, 0%, 95.1%);
-  --gray4: hsl(0, 0%, 93%);
-  --gray5: hsl(0, 0%, 90.9%);
-  --gray6: hsl(0, 0%, 88.7%);
-  --gray7: hsl(0, 0%, 85.8%);
-  --gray8: hsl(0, 0%, 78%);
-  --gray9: hsl(0, 0%, 56.1%);
-  --gray10: hsl(0, 0%, 52.3%);
-  --gray11: hsl(0, 0%, 43.5%);
-  --gray12: hsl(0, 0%, 9%);
-  --border-radius: 8px;
-  --normal-bg: #fff;
-  --normal-border: var(--gray4);
-  --normal-text: var(--gray12);
-
-  --success-bg: hsl(143, 85%, 96%);
-  --success-border: hsl(145, 92%, 91%);
-  --success-text: hsl(140, 100%, 27%);
-
-  --info-bg: hsl(208, 100%, 97%);
-  --info-border: hsl(221, 91%, 91%);
-  --info-text: hsl(210, 92%, 45%);
-
-  --warning-bg: hsl(49, 100%, 97%);
-  --warning-border: hsl(49, 91%, 91%);
-  --warning-text: hsl(31, 92%, 45%);
-
-  --error-bg: hsl(359, 100%, 97%);
-  --error-border: hsl(359, 100%, 94%);
-  --error-text: hsl(360, 100%, 45%);
-}
-
-.Wizard__Wrapper {
-  position: absolute;
-  z-index: 999999999;
-  transition: all 100ms ease;
-}
-
-.Wizard__Container {
-  min-height: 100px;
+  box-sizing: border-box;
+  width: var(--wizard-width);
+  max-width: calc(100vw - 16px);
   padding: 16px;
-  background: var(--normal-bg);
-  border: 1px solid var(--normal-border);
-  color: var(--normal-text);
-  border-radius: var(--border-radius);
-  box-shadow: 0 4px 12px #0000001a;
-  width: var(--width);
-  font-size: 13px;
-  background-color: white;
-  transform: translate(22px, -50px);
-  z-index: 2;
-  position: relative;
+  border: 1px solid var(--wizard-border);
+  border-radius: var(--wizard-radius);
+  background: var(--wizard-bg);
+  color: var(--wizard-fg);
+  box-shadow: var(--wizard-shadow);
+  font:
+    13px / 1.5 system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  z-index: 2147483647;
 }
 
-.Wizard__CloseButton {
-  border-radius: 4px;
-  padding-left: 8px;
-  padding-right: 8px;
-  height: 24px;
-  font-size: 12px;
-  color: var(--normal-bg);
-  background: var(--normal-text);
-  border: none;
-  cursor: pointer;
+@media (prefers-color-scheme: dark) {
+  .Wizard {
+    --wizard-bg: hsl(0 0% 11%);
+    --wizard-fg: hsl(0 0% 95%);
+    --wizard-muted: hsl(0 0% 68%);
+    --wizard-border: hsl(0 0% 22%);
+    --wizard-button-bg: hsl(0 0% 18%);
+    --wizard-primary-bg: hsl(0 0% 95%);
+    --wizard-primary-fg: hsl(0 0% 9%);
+    --wizard-shadow: 0 4px 16px rgb(0 0 0 / 0.5);
+  }
+}
+
+/* Without a target the card waits in the centre of the viewport. */
+.Wizard[data-side="center"] {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* The card takes focus on open only to host keyboard navigation; buttons show the ring. */
+.Wizard:focus {
   outline: none;
+}
+
+.Wizard button:focus-visible {
+  outline: 2px solid var(--wizard-accent);
+  outline-offset: 2px;
+}
+
+.Wizard__Header {
   display: flex;
   align-items: center;
-  flex-shrink: 0;
-  transition:
-    opacity 0.4s,
-    box-shadow 0.2s;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
-.Wizard__CloseButton_empty {
-  border: none;
-  cursor: pointer;
-  outline: none;
-  background: transparent;
-  padding: 0;
-}
-
-.Wizard__Info {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 10px;
-  align-items: center;
-  font-weight: 500;
-  line-height: 1.5;
-  color: inherit;
-}
-
-.Wizard__Count {
+.Wizard__Counter {
   flex: 1;
+  color: var(--wizard-muted);
   font-size: 12px;
+  font-variant-numeric: tabular-nums;
 }
 
 .Wizard__Title {
-  margin-bottom: 8px;
-  letter-spacing: normal;
-  color: #000000;
+  margin-bottom: 4px;
   font-size: 14px;
   font-weight: 600;
-  font-style: normal;
 }
 
 .Wizard__Description {
-  margin-bottom: 15px;
-  color: #4d4d4d;
-  font-size: 12px;
+  color: var(--wizard-muted);
 }
 
 .Wizard__Footer {
-  text-align: right;
   display: flex;
-  gap: 10px;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.Wizard button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.Wizard__Close {
+  padding: 0 8px;
+  height: 24px;
+  font-size: 12px;
+  background: transparent;
+  color: var(--wizard-muted);
+}
+
+.Wizard__Close:hover {
+  color: var(--wizard-fg);
 }
 
 .Wizard__Button {
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  padding: 0 16px;
+  padding: 0 14px;
   height: 32px;
-  color: var(--normal-bg);
-  background: var(--normal-text);
-  border: none;
-  cursor: pointer;
-  outline: none;
-  display: flex;
-  flex-shrink: 0;
-  transition:
-    opacity 0.4s,
-    box-shadow 0.2s;
-  font-size: 14px;
+  background: var(--wizard-button-bg);
+  color: var(--wizard-fg);
 }
 
-.Wizard__Pin {
+.Wizard__Button_primary {
+  background: var(--wizard-primary-bg);
+  color: var(--wizard-primary-fg);
+}
+
+/* Line from the card to the target, ending in a pin on the target's edge. */
+.Wizard__Connector {
   position: absolute;
-  z-index: 2;
-  width: 15px;
-  height: 15px;
+  background: var(--wizard-accent);
+}
+
+.Wizard__Connector::after {
+  content: "";
+  position: absolute;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px white;
-  top: -7px;
-  left: -7px;
+  background: var(--wizard-accent);
+  box-shadow: 0 0 0 2px var(--wizard-bg);
 }
 
-.Wizard__Line {
+.Wizard[data-side="right"] .Wizard__Connector,
+.Wizard[data-side="left"] .Wizard__Connector {
+  width: 24px;
   height: 1px;
-  width: 25px;
-  top: 1px;
-  position: absolute;
-  z-index: 1;
+}
+
+.Wizard[data-side="top"] .Wizard__Connector,
+.Wizard[data-side="bottom"] .Wizard__Connector {
+  width: 1px;
+  height: 24px;
+}
+
+.Wizard[data-side="right"] .Wizard__Connector {
+  right: 100%;
+}
+.Wizard[data-side="right"] .Wizard__Connector::after {
+  left: -5px;
+  top: -5px;
+}
+
+.Wizard[data-side="left"] .Wizard__Connector {
+  left: 100%;
+}
+.Wizard[data-side="left"] .Wizard__Connector::after {
+  right: -5px;
+  top: -5px;
+}
+
+.Wizard[data-side="bottom"] .Wizard__Connector {
+  bottom: 100%;
+}
+.Wizard[data-side="bottom"] .Wizard__Connector::after {
+  top: -5px;
+  left: -5px;
+}
+
+.Wizard[data-side="top"] .Wizard__Connector {
+  top: 100%;
+}
+.Wizard[data-side="top"] .Wizard__Connector::after {
+  bottom: -5px;
+  left: -5px;
 }

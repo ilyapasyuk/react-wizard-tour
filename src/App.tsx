@@ -1,42 +1,49 @@
-import React from 'react'
-import Wizard from './Wizard'
+import { useState } from 'react'
 
-const rule = [
+import './Wizard/style.css'
+
+import { Wizard, type WizardStep } from './Wizard'
+
+const LOREM =
+  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+
+const steps: WizardStep[] = [
   {
-    elementId: 'elementId1',
+    target: '#elementId1',
     title: 'Title 1',
     description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
   },
   {
-    elementId: 'elementId2',
+    target: '#elementId2',
     title: 'Title 2',
     description: (
       <div>
-        <span style={{ marginRight: 5 }}>That is string description, but this is</span>
-        <a href="https://pasyuk.com" target="_blank">
-          link
+        <span style={{ marginRight: 5 }}>A description can hold JSX, like a link to</span>
+        <a href="https://pasyuk.com" target="_blank" rel="noreferrer">
+          the author’s site
         </a>
       </div>
     ),
   },
   {
-    elementId: 'elementId3',
+    target: '#elementId3',
     title: 'Title 3',
     description: 'description 3',
   },
   {
-    elementId: 'elementId4',
+    target: '#elementId4',
     title: 'Title 4',
     description: 'description 4',
   },
   {
-    elementId: 'elementId5',
+    target: '#elementId5',
     title: 'Title 5',
     description: 'description 5',
   },
 ]
 
 function App() {
+  const [open, setOpen] = useState(true)
   return (
     <div
       style={{
@@ -45,22 +52,17 @@ function App() {
       }}
     >
       <h1>React Onboarding</h1>
+      <button type="button" onClick={() => setOpen(true)}>
+        Start tour
+      </button>
       <code>
         <pre>npm i react-onboarding</pre>
       </code>
       <header>
-        <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-          a galley of type and scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting, remaining essentially
-          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
-          PageMaker including versions of Lorem Ipsum.
-        </p>
+        <p>{LOREM}</p>
         <p>
           <span id="elementId1">
-            Edit <code>src/App.js</code> and save to reload.
+            Edit <code>src/App.tsx</code> and save to reload.
           </span>
           <a
             id="elementId2"
@@ -79,62 +81,14 @@ function App() {
         />
       </header>
       <main>
-        <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-          a galley of type and scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting, remaining essentially
-          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
-          PageMaker including versions of Lorem Ipsum.
-        </p>
-        <p id="elementId4">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-          a galley of type and scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting, remaining essentially
-          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
-          PageMaker including versions of Lorem Ipsum.
-        </p>
-        <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-          a galley of type and scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting, remaining essentially
-          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
-          PageMaker including versions of Lorem Ipsum.
-        </p>
-        <p id="elementId5">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-          a galley of type and scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting, remaining essentially
-          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
-          PageMaker including versions of Lorem Ipsum.
-        </p>
-        <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-          a galley of type and scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting, remaining essentially
-          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
-          PageMaker including versions of Lorem Ipsum.
-        </p>
-        <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-          a galley of type and scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting, remaining essentially
-          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
-          PageMaker including versions of Lorem Ipsum.
-        </p>
+        <p>{LOREM}</p>
+        <p id="elementId4">{LOREM}</p>
+        <p>{LOREM}</p>
+        <p id="elementId5">{LOREM}</p>
+        <p>{LOREM}</p>
+        <p>{LOREM}</p>
       </main>
-      <Wizard rule={rule} pinColor="black" lineColor="black" isScrollToElement />
+      <Wizard steps={steps} open={open} onOpenChange={setOpen} />
     </div>
   )
 }

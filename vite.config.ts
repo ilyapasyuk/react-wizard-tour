@@ -1,41 +1,49 @@
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
-import * as path from 'node:path'
-import { viteStaticCopy } from 'vite-plugin-static-copy'
-import { libInjectCss } from 'vite-plugin-lib-inject-css'
+import { playwright } from '@vitest/browser-playwright'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
-  base: '',
-  plugins: [
-    react(),
-    libInjectCss(),
-    viteStaticCopy({
-      targets: [
-        {
-          src: path.resolve(__dirname, './src/Wizard/types.ts'),
-          dest: './',
-        },
-      ],
-    }),
-  ],
-  server: {
-    open: true,
-    port: 3000,
-  },
+  plugins: [react()],
+  server: { port: 3000, open: true },
   build: {
-    minify: true,
     lib: {
-      entry: path.resolve('./src/Wizard/index.tsx'),
-      name: 'react-onboarding',
-      fileName: (format) => `wizard.${format}.min.js`,
+      entry: 'src/Wizard/index.ts',
+      formats: ['es'],
+      fileName: 'index',
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
-      output: {
-        globals: {
-          react: 'React',
+      external: [/^react($|\/)/, /^react-dom($|\/)/, /^@floating-ui\//],
+      output: { banner: "'use client';" },
+    },
+  },
+  test: {
+    globals: true,
+    coverage: { include: ['src/Wizard/**'], exclude: ['**/*.test.tsx', '**/types.ts'] },
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'unit',
+          environment: 'jsdom',
+          include: ['src/**/*.test.tsx'],
+          exclude: ['src/**/*.browser.test.tsx'],
+          setupFiles: ['src/test/setup.ts'],
         },
       },
-    },
+      {
+        // Layout needs a real engine: positioning is checked in Chromium.
+        extends: true,
+        test: {
+          name: 'browser',
+          include: ['src/**/*.browser.test.tsx'],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright(),
+            instances: [{ browser: 'chromium', viewport: { width: 1000, height: 700 } }],
+          },
+        },
+      },
+    ],
   },
 })

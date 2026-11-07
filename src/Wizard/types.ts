@@ -1,32 +1,51 @@
-// Type definitions for react-onboarding 1.2.1
-// Project: https://github.com/ilyapasyuk/react-onboarding#readme
-// Definitions by: ilyapasyuk <https://github.com/ilyapasyuk>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 3.1
+import type { ReactNode, RefObject } from 'react'
 
-import * as React from 'react'
+/**
+ * Where a step points.
+ * - string: CSS selector, resolved with `document.querySelector`.
+ * - ref: React ref to the element.
+ */
+export type WizardTarget = string | RefObject<Element | null>
+
+export type WizardPlacement = 'top' | 'right' | 'bottom' | 'left'
 
 export interface WizardStep {
-  elementId: string
-  title: string
-  description?: string | React.ReactNode
+  target: WizardTarget
+  title: ReactNode
+  description?: ReactNode
+  /** Preferred side. The card flips to the opposite side when it does not fit. Default: `right`. */
+  placement?: WizardPlacement
 }
 
-export interface Coordinates {
-  top: number
-  left: number
+/** Why the tour closed. */
+export type WizardCloseReason = 'close' | 'escape' | 'finish'
+
+export interface WizardLabels {
+  prev?: ReactNode
+  next?: ReactNode
+  finish?: ReactNode
+  close?: ReactNode
+  /** Step counter, e.g. `(1, 5) => '1 of 5'`. */
+  counter?: (step: number, total: number) => ReactNode
 }
 
 export interface WizardProps {
-  rule: WizardStep[]
-  isShow?: boolean
-  prevButtonTitle?: string
-  nextButtonTitle?: string
-  closeButtonTitle?: string
-  closeButtonElement?: React.ReactNode
-  lineColor?: string
-  pinColor?: string
-  isScrollToElement?: boolean
-}
+  steps: readonly WizardStep[]
 
-export default class Wizard extends React.Component<WizardProps> {}
+  /** Controlled visibility. Pair with `onOpenChange`. */
+  open?: boolean
+  /** Initial visibility when uncontrolled. Default: `true`. */
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean, reason: WizardCloseReason) => void
+
+  /** Controlled zero-based step index. Pair with `onStepChange`. */
+  step?: number
+  /** Initial step when uncontrolled. Default: `0`. */
+  defaultStep?: number
+  onStepChange?: (step: number) => void
+
+  labels?: WizardLabels
+  /** Scroll the target into view on each step. Default: `true`. */
+  scrollToTarget?: boolean
+  className?: string
+}

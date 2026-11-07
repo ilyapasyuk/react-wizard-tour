@@ -1,55 +1,86 @@
 {
   "name": "react-onboarding",
-  "version": "1.5.0",
-  "types": "dist/types.ts",
-  "description": "Simple Wizard component for React",
-  "type": "module",
-  "main": "dist/wizard.umd.min.js",
-  "module": "dist/wizard.es.min.js",
-  "repository": "git@github.com:ilyapasyuk/react-wizard-tour.git",
-  "files": [
-    "dist",
-    "README.md"
+  "version": "2.0.0",
+  "description": "Lightweight onboarding tour component for React",
+  "keywords": [
+    "react",
+    "onboarding",
+    "tour",
+    "wizard",
+    "walkthrough",
+    "tooltip"
   ],
-  "author": "pasyuk.com@gmail.com",
+  "type": "module",
   "license": "MIT",
+  "author": "pasyuk.com@gmail.com",
+  "homepage": "https://github.com/ilyapasyuk/react-wizard-tour#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilyapasyuk/react-wizard-tour.git"
+  },
   "bugs": {
     "url": "https://github.com/ilyapasyuk/react-wizard-tour/issues"
   },
-  "private": false,
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./style.css": "./dist/style.css"
   },
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
-    "start": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "dev": "vite",
+    "build": "vite build && cp src/Wizard/style.css dist/style.css && tsc -p tsconfig.build.json",
+    "typecheck": "tsc",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "test": "vitest run",
+    "test:unit": "vitest run --project unit",
+    "test:browser": "vitest run --project browser",
+    "coverage": "vitest run --coverage",
+    "mutation": "stryker run",
+    "prepublishOnly": "npm run lint && npm run typecheck && npm test && npm run build"
   },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@floating-ui/react-dom": "^2.1.9"
   },
   "devDependencies": {
-    "@types/node": "^20.11.28",
-    "@types/react": "^18.2.66",
-    "@types/react-dom": "^18.2.22",
-    "@vitejs/plugin-react": "^4.2.1",
-    "prettier": "^3.2.5",
-    "typescript": "^5.4.2",
-    "vite": "^5.1.6",
-    "vite-plugin-lib-inject-css": "^2.0.0",
-    "vite-plugin-static-copy": "^1.0.1"
+    "@biomejs/biome": "^2.6.6",
+    "@stryker-mutator/core": "^10.1.1",
+    "@stryker-mutator/vitest-runner": "^10.1.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "@vitest/browser-playwright": "^5.1.0",
+    "@vitest/coverage-v8": "^5.1.0",
+    "jsdom": "^26.1.0",
+    "playwright": "^1.65.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=20.19"
   }
 }
