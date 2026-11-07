@@ -209,6 +209,18 @@ describe('Wizard positioning', () => {
     expect(midway).toBeLessThan(end - 20)
   })
 
+  it('treats a hidden target as missing', async () => {
+    render(
+      <>
+        <div id="hidden" style={{ display: 'none' }} />
+        <Wizard steps={[{ target: '#hidden', title: 'Hidden' }]} />
+      </>,
+    )
+    await settled()
+    expect(dialog()).toHaveAttribute('data-side', 'center')
+    expect(document.querySelector('.Wizard__Spotlight')).not.toHaveAttribute('data-active')
+  })
+
   it('centres the card when the target is missing', async () => {
     render(<Wizard steps={[{ target: '#nowhere', title: 'Lost' }]} />)
     await settled()
