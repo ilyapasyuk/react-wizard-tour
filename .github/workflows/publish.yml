@@ -1,0 +1,29 @@
+name: Publish
+
+# Runs when a GitHub release is published. Uses npm Trusted Publishing (OIDC):
+# no NPM_TOKEN secret. Configure once at npmjs.com → react-onboarding → Settings →
+# Trusted Publisher → GitHub Actions: repo ilyapasyuk/react-wizard-tour, workflow publish.yml.
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium-headless-shell
+      - name: Check that the tag matches package.json
+        run: test "v$(node -p 'require("./package.json").version')" = "${GITHUB_REF_NAME}"
+      - run: npm publish

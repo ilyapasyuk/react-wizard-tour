@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: React ${{ matrix.react }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        react: ['18', '19']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - if: matrix.react != '19'
+        run: npm i --no-save react@${{ matrix.react }} react-dom@${{ matrix.react }}
+      - run: npx biome ci .
+      - run: npm run typecheck
+      - run: npm run test:unit
+      - run: npx playwright install --with-deps chromium-headless-shell
+      - run: npm run test:browser
+      - run: npm run build
+      - name: Check the package shape and its types
+        run: |
+          npx --yes publint@latest --strict
+          npx --yes @arethetypeswrong/cli@latest --pack --profile esm-only --exclude-entrypoints style.css
